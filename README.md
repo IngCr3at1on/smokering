@@ -1,6 +1,7 @@
 ### Smoke Ring
 
 [![GoDoc][docs_badge]][docs]
+[![Build Status][travis_badge]][travis]
 
 ---
 
@@ -10,3 +11,5 @@ Smoke Ring is encryption agnostic, it is designed to be used as a package by ano
 
 [docs]: https://godoc.org/github.com/IngCr3at1on/smokering
 [docs_badge]: https://godoc.org/github.com/IngCr3at1on/smokering?status.svg
+[travis]: https://travis-ci.org/IngCr3at1on/smokering
+[travis_badge]: https://travis-ci.org/IngCr3at1on/smokering.svg?branch=master
