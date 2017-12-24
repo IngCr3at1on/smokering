@@ -6,7 +6,7 @@ import (
 	"crypto/rand"
 	"testing"
 
-	. "github.com/justanotherorganization/smokering"
+	. "github.com/ingcr3at1on/smokering"
 )
 
 func getRandomKey() ([]byte, error) {
