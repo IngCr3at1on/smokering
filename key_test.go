@@ -12,7 +12,7 @@ func TestSmokeringsKey(t *testing.T) {
 		note = "a test key"
 		id   = "test"
 	)
-	key, err := ring.New(id, note, block, aes.BlockSize, getRandomKey)
+	key, err := ring.Key(id, note, block, aes.BlockSize, getRandomKey)
 	ok(t, err)
 	assert(t, key != nil, "key should be a new key")
 

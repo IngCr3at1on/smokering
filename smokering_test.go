@@ -34,7 +34,7 @@ func TestSmokerings(t *testing.T) {
 		note = "a test key"
 		id   = "test"
 	)
-	_, err := ring.New(id, note, block, aes.BlockSize, getRandomKey)
+	_, err := ring.Key(id, note, block, aes.BlockSize, getRandomKey)
 	ok(t, err)
 
 	key := ring.GetKey(id)

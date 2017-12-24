@@ -52,7 +52,7 @@ func (k *Key) SetNote(note string) {
 }
 
 // Decrypt and decode the key so that it may be used.
-// masterkey is the masterkey used to encrypt the key.
+// block is the block cipher generated from the smokering master key.
 func (k *Key) Decrypt(block cipher.Block, blocksize int) ([]byte, error) {
 	k.mux.RLock()
 	defer k.mux.RUnlock()

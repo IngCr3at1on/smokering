@@ -13,7 +13,7 @@ type (
 	}
 )
 
-// New returns a new Smokering encrypted with masterkey.
+// New returns a new Smokering encrypted with master key.
 func New() *Smokering {
 	return &Smokering{
 		mux: &sync.RWMutex{},
@@ -21,12 +21,12 @@ func New() *Smokering {
 	}
 }
 
-// New adds a new key to the Smokering and returns it.
+// Key adds a new key to the Smokering and returns it.
 // block is the block cipher used to encrypt the keys (generally an AES cipher
 // encrypted with a master key).
 // blocksize is the size of the block used to encrypt the keys (e.g. aes.BlockSize)
 // f is provided to generate the key.
-func (kr *Smokering) New(id, note string, block cipher.Block, blocksize int, f func() ([]byte, error)) (*Key, error) {
+func (sr *Smokering) Key(id, note string, block cipher.Block, blocksize int, f func() ([]byte, error)) (*Key, error) {
 	k, err := f()
 	if err != nil {
 		return nil, err
@@ -45,28 +45,28 @@ func (kr *Smokering) New(id, note string, block cipher.Block, blocksize int, f f
 	}
 
 	key.SetNote(note)
-	kr.addKey(key)
+	sr.addKey(key)
 
 	return key, nil
 }
 
-func (kr *Smokering) addKey(k *Key) {
-	kr.mux.Lock()
-	defer kr.mux.Unlock()
+func (sr *Smokering) addKey(k *Key) {
+	sr.mux.Lock()
+	defer sr.mux.Unlock()
 
-	kr.m[k.ID] = k
+	sr.m[k.ID] = k
 }
 
 // GetKey gets a key from the keyring using it's ID.
-func (kr *Smokering) GetKey(id string) *Key {
-	return kr.getKey(id, false)
+func (sr *Smokering) GetKey(id string) *Key {
+	return sr.getKey(id, false)
 }
 
-func (kr *Smokering) getKey(id string, disabled bool) *Key {
-	kr.mux.RLock()
-	defer kr.mux.RUnlock()
+func (sr *Smokering) getKey(id string, disabled bool) *Key {
+	sr.mux.RLock()
+	defer sr.mux.RUnlock()
 
-	k, ok := kr.m[id]
+	k, ok := sr.m[id]
 	if !ok {
 		return nil
 	}
