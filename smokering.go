@@ -5,6 +5,7 @@ import (
 	"crypto/cipher"
 	"encoding/gob"
 	"encoding/json"
+	"errors"
 	"sync"
 )
 
@@ -84,6 +85,10 @@ func (sr *Smokering) Key(id, note string, block cipher.Block, blocksize int, f f
 	}
 
 	// TODO: if no ID is set generate one.
+	// Until then, error if no ID is provided...
+	if id == "" {
+		return nil, errors.New("id cannot be empty")
+	}
 
 	key := &Key{
 		id:     id,
