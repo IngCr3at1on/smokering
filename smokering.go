@@ -11,7 +11,7 @@ import (
 type (
 	// Smokering stores encryption keys protected by a master key.
 	Smokering struct {
-		*sync.RWMutex
+		sync.RWMutex
 		m map[string]*Key
 	}
 
@@ -23,8 +23,7 @@ type (
 // New returns a new Smokering encrypted with master key.
 func New() *Smokering {
 	return &Smokering{
-		RWMutex: &sync.RWMutex{},
-		m:       make(map[string]*Key),
+		m: make(map[string]*Key),
 	}
 }
 
@@ -87,9 +86,8 @@ func (sr *Smokering) Key(id, note string, block cipher.Block, blocksize int, f f
 	// TODO: if no ID is set generate one.
 
 	key := &Key{
-		RWMutex: &sync.RWMutex{},
-		id:      id,
-		status:  StatusNew,
+		id:     id,
+		status: StatusNew,
 	}
 
 	if err := key.write(k, block, blocksize); err != nil {
@@ -109,10 +107,7 @@ func (sr *Smokering) KeyFromGob(byt []byte) (*Key, error) {
 }
 
 func (sr *Smokering) keyFromGob(byt []byte, hasLock bool) (*Key, error) {
-	key := &Key{
-		RWMutex: &sync.RWMutex{},
-		status:  StatusUnknown,
-	}
+	key := &Key{}
 
 	if err := key.GobDecode(byt); err != nil {
 		return nil, err
@@ -130,10 +125,7 @@ func (sr *Smokering) KeyFromJSON(byt []byte) (*Key, error) {
 }
 
 func (sr *Smokering) keyFromJSON(byt []byte, hasLock bool) (*Key, error) {
-	key := &Key{
-		RWMutex: &sync.RWMutex{},
-		status:  StatusUnknown,
-	}
+	key := &Key{}
 
 	if err := key.FromJSON(byt); err != nil {
 		return nil, err

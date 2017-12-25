@@ -27,7 +27,7 @@ const (
 type (
 	// Key represents an encryption key.
 	Key struct {
-		*sync.RWMutex
+		sync.RWMutex
 
 		id     string
 		note   string
@@ -154,10 +154,6 @@ func (k *Key) GobEncode() ([]byte, error) {
 
 // GobDecode implements the GobDecoder interface to allow restoring a key state.
 func (k *Key) GobDecode(byt []byte) error {
-	if k.RWMutex == nil {
-		k.RWMutex = &sync.RWMutex{}
-	}
-
 	k.Lock()
 	defer k.Unlock()
 	d := keydata{}
@@ -205,10 +201,6 @@ func (k *Key) AsJSON() ([]byte, error) {
 
 // FromJSON sets the key data from JSON to allow restoring a key state.
 func (k *Key) FromJSON(byt []byte) error {
-	if k.RWMutex == nil {
-		k.RWMutex = &sync.RWMutex{}
-	}
-
 	k.Lock()
 	defer k.Unlock()
 	d := keydata{}
